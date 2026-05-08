@@ -55,13 +55,9 @@ app.post('/hotmart/webhook', async (c) => {
 
     const code = generateCode();
 
-    await db.insert(accessCodes).values({
-      code,
-      email: buyerEmail.toLowerCase(),
-      name: buyerName,
-      hotmartOrderId: String(orderId),
-      used: false,
-      createdAt: new Date().toISOString(),
+    await client.execute({
+      sql: `INSERT OR IGNORE INTO access_codes (code, email, name, hotmart_order_id, used, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+      args: [code, buyerEmail.toLowerCase(), buyerName, String(orderId), 0, new Date().toISOString()]
     });
 
     const firstName = buyerName.split(" ")[0] || "Olá";
@@ -114,13 +110,9 @@ app.post('/access/request-otp', async (c) => {
 
     await db.delete(otpCodes).where(eq(otpCodes.accessCode, code.toUpperCase().trim()));
 
-    await db.insert(otpCodes).values({
-      accessCode: code.toUpperCase().trim(),
-      email: record.email,
-      otp,
-      verified: false,
-      expiresAt,
-      createdAt: new Date().toISOString(),
+    await client.execute({
+      sql: `INSERT INTO otp_codes (access_code, email, otp, verified, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+      args: [code.toUpperCase().trim(), record.email, otp, 0, expiresAt, new Date().toISOString()]
     });
 
     const firstName = (record.name || "").split(" ")[0] || "Olá";
@@ -206,13 +198,9 @@ app.post('/lead', async (c) => {
 
     const profile = calculateProfile(answers || []);
 
-    await db.insert(leads).values({
-      name, email,
-      instagram: instagram || null,
-      answers: JSON.stringify(answers || []),
-      profile,
-      accessCode: accessCode || null,
-      createdAt: new Date().toISOString(),
+    await client.execute({
+      sql: `INSERT INTO leads (name, email, instagram, answers, profile, access_code, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      args: [name, email, instagram || null, JSON.stringify(answers || []), profile, accessCode || null, new Date().toISOString()]
     });
 
     const firstName = name.split(" ")[0];
