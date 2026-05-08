@@ -5,12 +5,11 @@ set -e
 curl -fsSL https://bun.sh/install | bash
 export PATH="$HOME/.bun/bin:$PATH"
 
-# Clear any bun cache to avoid stale workspace references
-rm -rf ~/.bun/install/cache 2>/dev/null || true
-rm -f bun.lock bun.lockb 2>/dev/null || true
+# Remove any lockfiles to avoid workspace conflicts
+rm -f bun.lock bun.lockb package-lock.json yarn.lock 2>/dev/null || true
 
-# Install dependencies (no workspaces, standalone)
-bun install --no-cache
+# Install with npm (more stable on Render, avoids bun workspace resolution)
+npm install --legacy-peer-deps
 
-# Build
+# Build with bun (faster)
 bun run build
