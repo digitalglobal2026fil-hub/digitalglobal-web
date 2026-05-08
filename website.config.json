@@ -1,0 +1,8 @@
+{
+    "id": "website",
+    "name": "Digital Global",
+    "description": "Content creator diagnostic platform with access codes, OTP verification, and AI post analyzer",
+    "url": "https://example.com",
+    "hostname": "xyz.runable.site",
+    "port": 8080
+}

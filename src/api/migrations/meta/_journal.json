@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1778172748120,
+      "tag": "0000_married_professor_monster",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1778173630709,
+      "tag": "0001_daily_thunderball",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1778175163880,
+      "tag": "0002_hard_zombie",
+      "breakpoints": true
+    }
+  ]
+}
